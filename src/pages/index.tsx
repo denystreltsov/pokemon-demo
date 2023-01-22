@@ -8,6 +8,8 @@ const btn = "flex items-center rounded-md border border-transparent bg-indigo-60
 export default function Home() {
   const [ids, setIds] = useState([0, 0] as [number, number]);
 
+  const voteMutation = trpc.pokemon.cast_vote.useMutation();
+
   useEffect(() => {
     setIds(getOptionsForVote());
   }, []);
@@ -22,6 +24,11 @@ export default function Home() {
 
   const voteForRoundest = (selected : number) =>{
       setIds(getOptionsForVote());
+      if(selected === 1){
+        voteMutation.mutate({votedFor: 1, votedAgainst: 2})
+      }else{
+        voteMutation.mutate({votedFor: 2, votedAgainst: 1})
+      }
   }
 
   return (
